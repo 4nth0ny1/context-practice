@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useContext, useState } from "react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import "./App.css";
 
-function App() {
+const DarkContext = createContext();
+
+export default function App() {
+  const [dark, setDark] = useState(false);
+
+  const darkStyles = {
+    test: {
+      backgroundColor: dark ? "black" : "white",
+      color: dark ? "white" : "black",
+    },
+  };
+
+  const handleSetDark = () => {
+    setDark(!dark);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <DarkContext.Provider value={{ dark, handleSetDark }}>
+      <div className="App" style={darkStyles.test}>
+        <Navbar DarkContext={DarkContext} />
+        <Hero />
+      </div>
+    </DarkContext.Provider>
   );
 }
-
-export default App;
